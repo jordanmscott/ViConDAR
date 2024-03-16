@@ -43,19 +43,24 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
             if iCase1 == 1
                 %  plot(Output.TS.fullWF.time,Output.TS.fullWF.Uval{1, ii})
                 plot(Output.TS.fullWF.time,Output.TS.fullWF.Uval{1, iPoint}, Output.TS.lidar.time{1, iPoint},Output.TS.lidar.Uval{1, iPoint},'LineWidth',1.5)
-                legCell = {'Original WF', curNam};
+                %legCell = {'Original WF', curNam};
+                legCell = {'Original WF', "Simulated"};
             else
                 plot(Output.TS.lidar.time{1, iPoint},Output.TS.lidar.Uval{1, iPoint},'LineWidth',1.5)
-                legCell{1,end+1} = curNam;
+                %legCell{1,end+1} = curNam;
+                legCell{1,end+1} = "With EW";
+
             end
             grid on
             hold on
         end
-        title (['Pattern' input.PatternNames{perm_cell.values{curCase(1),1}{1,PatInd}} ' Y:' num2str(input.PatternY{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm Z:' num2str(input.PatternZ{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm'], 'Interpreter', 'none')
+        %title (['Pattern' input.PatternNames{perm_cell.values{curCase(1),1}{1,PatInd}} ' Y:' num2str(input.PatternY{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm Z:' num2str(input.PatternZ{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm'], 'Interpreter', 'none')
+        title (['U Vel [m/s] Results' ' Y:' num2str(input.PatternY{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm Z:' num2str(input.PatternZ{perm_cell.values{curCase(1),1}{1,PatInd},1}(iPoint)) 'm'], 'Interpreter', 'none')
         xlabel ('Time [s]')
         ylabel ('U vel [m/s]')
         set(gca,'FontSize',14)
         legend (legCell,'Interpreter','None','FontSize',10)
+        saveas(gcf, ['figure_Vel_' curNam '_.svg']);
         hold off
         clear legCell
     end
@@ -68,19 +73,23 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
         load ([input.LidarOutput_dir curNam '.mat'])
         if iCase2 == 1
             plot(Output.TS.fullWF.time,Output.Shear.fullWF.TS,Output.Shear.lidar.TSTime,Output.Shear.lidar.TS,'LineWidth',1.5)
-            legCell = {'Original WF', curNam};
+            %legCell = {'Original WF', curNam};
+            legCell = {'Original WF', "Simulated"};
         else
             plot(Output.Shear.lidar.TSTime,Output.Shear.lidar.TS,'LineWidth',1.5)
-            legCell{1,end+1} = curNam;
+            %legCell{1,end+1} = curNam;
+            legCell{1,end+1} = "With EW";
+
         end      
         grid on
         hold on
     end
-    title (['Pattern' input.PatternNames{perm_cell.values{curCase(1),1}{1,PatInd}}],'Interpreter','None')
+    title (['Shear Results'],'Interpreter','None')
     xlabel ('Time [s]')
     ylabel ('Shear exponent [-]')
     set(gca,'FontSize',14)
     legend (legCell,'Interpreter','None','FontSize',10)
+    saveas(gcf, ['figure_Shear_' curNam '_.svg']);
     clear curNam
     hold off
     
@@ -91,19 +100,22 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
         load ([input.LidarOutput_dir curNam '.mat'])
         if iCase2 == 1
             plot(Output.TS.fullWF.time,Output.REWS.fullWF.TS,Output.REWS.lidar.TSTime,Output.REWS.lidar.TS,'LineWidth',1.5)
-            legCell = {'Original WF', curNam};
+            %legCell = {'Original WF', curNam};
+            legCell = {'Original WF', "Simulated"};
         else
             plot(Output.REWS.lidar.TSTime,Output.REWS.lidar.TS,'LineWidth',1.5)
-            legCell{1,end+1} = curNam;
-        end       
+            %legCell{1,end+1} = curNam;
+            legCell{1,end+1} = "With EW";
+        end
         grid on
         hold on
     end
-    title (['Pattern' input.PatternNames{perm_cell.values{curCase(1),1}{1,PatInd}}],'Interpreter','None')
+    title (['REWS [m/s] Results'],'Interpreter','None')
     xlabel ('Time [s]')
     ylabel ('REWS [m/s]')
     set(gca,'FontSize',14)
     legend (legCell,'Interpreter','None','FontSize',10)
+    saveas(gcf, ['figure_REWS_' curNam '_.svg']);
     clear curNam curCase
     hold off
 end

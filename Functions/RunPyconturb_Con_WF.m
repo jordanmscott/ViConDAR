@@ -15,7 +15,7 @@ function RunPyconturb_Con_WF(input,filename)
 [status,cmdout] = system([input.PythonExe_path ' ../Functions/Read_CSV_Run_PycConTurb.py ' input.PyconturbInput_dir 'con_tc_' filename '.csv ' input.PyconturbInput_dir 'GridY_' filename '.csv ' input.PyconturbInput_dir 'GridZ_' filename '.csv ' input.PyconturbInput_dir 'Variables_' filename '.csv ' input.PyconturbOut_dir filename '_ConPyconturb.csv']);
 if status ~= 0
     disp(cmdout)
-    error(['Error in Pyconturb execution file ' inputfile '. Aborting...'])   
+    error(['Error in Pyconturb execution file ' input '. Aborting...'])   
 end
 % Transform from .csv into .mat
 Pyconturb_CSV2MAT(input,filename)

@@ -8,7 +8,7 @@
 % V.Pettas/F.Costa
 % University of Stuttgart, Stuttgart Wind Energy (SWE) 2019
 
-clc;
+clc; 
 close all;
 clearvars; 
 tmp = matlab.desktop.editor.getActive;
@@ -31,6 +31,8 @@ for indDirec = 1:length(input.AddUserDir)
 end
 
 %% Obtain the lidar output form virtual lidar
+perm_cell_add=string([]);
+perm_cell_add_values=uint8.empty;
 if input.flag_getLidarOutput == 1
     % Loop over requested wind fields
     for iProcess = 1:size(perm_cell.OutNames,1)
@@ -48,12 +50,34 @@ if input.flag_getLidarOutput == 1
                 indexvec(iName) = 0;
             end
         end
+
+        curFileInfo.name = perm_cell.OutNames{iProcess};
+
         curFileInfo.originalWF = perm_cell.namesOWF (find(indexvec==1))  ; %#ok<*FNDSB>
         Output = getLidarOutput(input,curFileInfo); % Obtain lidar measurements
+
+        curEWFileInfo = curFileInfo
+        curEWFileInfo.name = [curFileInfo.name 'EW']
+        perm_cell_add = [perm_cell_add; curEWFileInfo.name];
+        perm_cell_add_values = [perm_cell_add_values; curFileInfo.values];
+
+
+        Output = getLidarEWOutput(input,curEWFileInfo); % Obtain lidar EW measurements
+
         disp([curFileInfo.name ' has been processed (' datestr(datetime) '):' ])
     end
     disp('Creating virtual lidar output finished successfully')
 end
+
+for iAdd = 1:size(perm_cell_add,1)
+    perm_cell.OutNames = [perm_cell.OutNames; perm_cell_add(iAdd)];
+end
+for iAdd = 1:size(perm_cell_add_values)
+    disp(perm_cell.values)
+    disp(perm_cell_add_values(iAdd,:))
+    perm_cell.values = [perm_cell.values; {perm_cell_add_values(iAdd,:)}];
+end
+disp(perm_cell.OutNames)
 
 %% Obtain the inputs for constraining WF with turbsim
 
@@ -132,6 +156,7 @@ if input.flag_obtain_Con_Turbsim == 1
         curFileInfo.values = perm_cell.values{iProcess};
         curFileInfo.variables = perm_cell.variables;
         filenamTurbSimConInp  =  [curFileInfo.name]; 
+        fprintf(1,'Line 36', filenamTurbSimConInp);
         RunTurbSimCon_WF(input,filenamTurbSimConInp) % runs turbsim with system command
     end
 end
