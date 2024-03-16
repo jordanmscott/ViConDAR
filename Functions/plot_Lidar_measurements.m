@@ -60,7 +60,7 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
         ylabel ('U vel [m/s]')
         set(gca,'FontSize',14)
         legend (legCell,'Interpreter','None','FontSize',10)
-        saveas(gcf, ['figure_Vel_' curNam '_.svg']);
+        saveas(gcf, ['figure_Vel_TEST_EW.svg']);
         hold off
         clear legCell
     end
@@ -89,7 +89,7 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
     ylabel ('Shear exponent [-]')
     set(gca,'FontSize',14)
     legend (legCell,'Interpreter','None','FontSize',10)
-    saveas(gcf, ['figure_Shear_' curNam '_.svg']);
+    saveas(gcf, ['figure_Shear_TEST_EW.svg']);
     clear curNam
     hold off
     
@@ -115,7 +115,7 @@ for iCase = 1:size(Case,2) %loop over the groups of cases
     ylabel ('REWS [m/s]')
     set(gca,'FontSize',14)
     legend (legCell,'Interpreter','None','FontSize',10)
-    saveas(gcf, ['figure_REWS_' curNam '_.svg']);
+    saveas(gcf, ['figure_REWS_TEST_EW.svg']);
     clear curNam curCase
     hold off
 end
